@@ -2,25 +2,27 @@ const board = document.getElementById("game-board");
 const movesDisplay = document.getElementById("moves");
 const timerDisplay = document.getElementById("timer");
 const resultDisplay = document.getElementById("result");
-const restartBtn = document.getElementById("restart-btn");
+const restartBtn = document.getElementById("restart-button");
 
-let img_dimension = 150;
-let img_start = Math.floor(Math.random() * 100) + 1;
+let imgDimension = 150;
+let imgStart = Math.floor(Math.random() * 100) + 1;
 let cards = [];
-let first_card = null;
-let second_card = null;
-let lock_board = false;
+let firstCard = null;
+let secondCard = null;
+let lockBoard = false;
 let moves = 0;
-let matched_count = 0;
+let matchedCount = 0;
 let seconds = 0;
-let timer_interval = null;
+let timerInterval = null;
 
 const images = [];
-for (let i = img_start; i <= img_start + 7; i++) {
-    images.push(`https://picsum.photos/seed/${i}/${img_dimension}/${img_dimension}`);
+for (let i = imgStart; i <= imgStart + 7; i++) {
+    images.push(`https://picsum.photos/seed/${i}/${imgDimension}/${imgDimension}`);
 }
 
 cards = [...images, ...images];
+
+initGame();
 
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
@@ -29,4 +31,23 @@ function shuffle(array) {
     }
 }
 
-//push on git and create repo on github
+function initGame() {
+    board.innerHTML = "";
+    resultDisplay.textContent = "";
+    movesDisplay.textContent = `Coups : ${moves}`;
+    timerDisplay.textContent = `Temps : 00:00`;
+
+    shuffle(cards);
+    
+    cards.forEach((imgUrl) => {
+        const card = document.createElement("div");
+        card.classList.add("card");
+        card.setAttribute("role", "button");
+        card.setAttribute("tabindex", "0");
+        card.dataset.value = imgUrl; // On cache l'URL de l'image dans la carte
+        board.appendChild(card);
+        // Quand on clique, on appelle la fonction de gestion du clic
+        
+    });
+    
+}
