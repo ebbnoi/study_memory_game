@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="JS/memory.js" defer></script>
+    <link rel="stylesheet" href="CSS/memory.css" />
+    <title>Memory</title>
+    <meta name="description" content="Un jeu de memory utilisant Javascript">
+</head>
+
+<body>
+    <main id="game_board" class="grid_container">
+
+    </main>
+    <section id="moves"></section>
+    <section id="timer"></section>
+    <section id="result"></section>
+    <button id="restart_button"></button>
+</body>
+</html>
