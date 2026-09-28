@@ -36,6 +36,11 @@ function initGame() {
     resultDisplay.textContent = "";
     movesDisplay.textContent = `Coups : ${moves}`;
     timerDisplay.textContent = `Temps : 00:00`;
+    firstCard = null;
+    secondCard = null;
+    lockBoard = false;
+    moves = 0;
+    matchedCount = 0;
 
     shuffle(cards);
     
@@ -47,7 +52,60 @@ function initGame() {
         card.dataset.value = imgUrl; // On cache l'URL de l'image dans la carte
         board.appendChild(card);
         // Quand on clique, on appelle la fonction de gestion du clic
-        
+        card.addEventListener("click", () => handleCardClick(card));
     });
     
+}
+
+function handleCardClick(card) {
+    console.log("avant");
+    if (lockBoard || card === firstCard || card.firstChild ||card.classList.contains("matched"))
+    {
+        return;
+    }
+    console.log("apres");
+    
+    reveal(card);
+    
+    if (firstCard === null)
+    {
+        firstCard = card;
+    }
+    else 
+    {
+        secondCard = card;
+        lockBoard = true;
+        moves++;
+        movesDisplay.textContent = `Coups : ${moves}`;
+        checkMatch();
+    }
+}
+
+function checkMatch() {
+    if (firstCard.dataset.value === secondCard.dataset.value) {
+        firstCard.classList.add("matched");
+        secondCard.classList.add("matched");
+        matchedCount += 2;
+        resetTurn();
+
+    } else {
+        setTimeout(()  => {
+            firstCard.innerHTML = "";
+            secondCard.innerHTML = "";
+            resetTurn();
+        }, 800);
+    }
+}
+
+function resetTurn() {
+    firstCard = null;
+    secondCard = null;
+    lockBoard = false;
+}
+
+function reveal(card) {
+    const img = document.createElement("img");
+    img.src = card.dataset.value;
+    img.alt = "image de la carte de memory";
+    card.appendChild(img);
 }
