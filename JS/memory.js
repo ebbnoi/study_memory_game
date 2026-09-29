@@ -32,15 +32,17 @@ function shuffle(array) {
 }
 
 function initGame() {
+    moves = 0;
     board.innerHTML = "";
     resultDisplay.textContent = "";
-    movesDisplay.textContent = `Coups : ${moves}`;
-    timerDisplay.textContent = `Temps : 00:00`;
+    movesDisplay.textContent = `Coups: ${moves}`;
+    timerDisplay.textContent = `Temps: 00:00`;
     firstCard = null;
     secondCard = null;
     lockBoard = false;
-    moves = 0;
     matchedCount = 0;
+    timerInterval = null;
+    seconds = 0;
 
     shuffle(cards);
     
@@ -58,12 +60,13 @@ function initGame() {
 }
 
 function handleCardClick(card) {
-    console.log("avant");
     if (lockBoard || card === firstCard || card.firstChild ||card.classList.contains("matched"))
     {
         return;
     }
-    console.log("apres");
+    if (timerInterval === null) {
+        startTimer();
+    }
     
     reveal(card);
     
@@ -87,6 +90,7 @@ function checkMatch() {
         secondCard.classList.add("matched");
         matchedCount += 2;
         resetTurn();
+        checkVictory();
 
     } else {
         setTimeout(()  => {
@@ -109,3 +113,33 @@ function reveal(card) {
     img.alt = "image de la carte de memory";
     card.appendChild(img);
 }
+
+function formatTime(sec) {
+    let s = sec % 60;
+    let m = Math.trunc(sec/60);
+    
+    let s_str = String(s).padStart(2, '0');
+    
+    let m_str = String(m).padStart(2, '0');
+
+    return m_str + ':' + s_str;
+    
+}
+
+function startTimer() {
+    let timer = () => {
+        seconds++;
+        timerDisplay.innerHTML = `Temps: ${formatTime(seconds)}`;
+    }
+    timerInterval = setInterval(timer, 1000);
+}
+
+function checkVictory() {
+    if (matchedCount == 16) {
+        clearInterval(timerInterval);
+        resultDisplay.innerHTML = `Gagné en ${moves} coups, en ${Math.trunc(seconds/60)} minutes et ${seconds %60} secondes`;
+    }
+}
+
+restartBtn.innerHTML = "Réinitialiser le jeu";
+restartBtn.addEventListener("click", initGame);
