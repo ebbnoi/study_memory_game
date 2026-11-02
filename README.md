@@ -11,4 +11,8 @@ Algorithme de Fisher-Yates pour le mélange, asynchronisme
 
 Sur la page code du projet, cliquez sur code, puis sur download zip.
 Décompressez, puis ouvrez le fichier index.html avec un navigateur.
+
+Ou bien cliquez sur ce lien, pour jouer sans installer:
+https://roar-anemone.github.io/study_memory_game/
+
 Assurez-vous d'avoir une connexion internet pour que le jeu puisse récupérer les images.
